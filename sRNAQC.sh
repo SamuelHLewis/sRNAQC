@@ -110,6 +110,6 @@ printf "QCing reads\n"
 # recompress everything
 files=( $(ls . | grep '\.f*') )
 for i in ${files[*]}; do
-	printf "Compressing ${i} (in background)\n"
-	gzip $i &
+	printf "Compressing ${i}\n"
+	gzip $i
 done
