@@ -23,8 +23,6 @@ VirusFinder accepts the following additional arguments (all of which have defaul
 
 -a (3' adapter sequence)
 
--g (5' adapter sequence)
-
 -c (number of cores, default=1)
 
 -n (number of ambiguities in 3' adapter sequence, default=0)
