@@ -2,12 +2,11 @@
 
 # defaults for cores (single) and adapter ambiguities (none)
 Adapter3="TGGAATTCTCGGGTGCCAAGG"
-Adapter5="GTTCAGAGTTCTACAGTCCGACGATC"
 Cores=1
 AdaptAmb=False
 
 # command line option parsing
-while getopts ":a:c:g:i:n:h" opt; do
+while getopts ":a:c:i:n:h" opt; do
 	case $opt in
 		a)
 			if [ $OPTARG = "" ]
@@ -31,18 +30,6 @@ while getopts ":a:c:g:i:n:h" opt; do
 				# set number of cores to user input
 				printf "cores (-c): $OPTARG\n"
 				Cores=$OPTARG
-			fi
-			;;
-		g)
-			if [ $OPTARG = "" ]
-			then
-				# exit if 5' adapter is set as an empty string
-				printf "ERROR: 5' adapter (-g) set as empty\n"
-				exit 1
-			else
-				# set 5' adapter to user input
-				printf "5' adapter (-g): $OPTARG\n"
-				Adapter5=$OPTARG
 			fi
 			;;
 		h)
@@ -90,7 +77,7 @@ fastq_quality_filter -v -q 20 -p 90 -i $InFile -o reads_f.fastq
 # trim adapters
 # -e 0.05 specifies a 5% error rate (1 mismatch)
 printf "Trimming adapters\n"
-cutadapt --trimmed-only -a $Adapter3 -g $Adapter5 -m 17 -e 0.05 -o reads_f_t.fastq reads_f.fastq
+cutadapt --trimmed-only -a $Adapter3 -m 17 -e 0.05 -o reads_f_t.fastq reads_f.fastq
 if [ "$AdaptAmb" != "False" ]
 then
 	# trim 3 bases from 3' end of each read
