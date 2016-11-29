@@ -112,7 +112,7 @@ printf "QCing reads\n"
 ~/bin/FastQC/fastqc -t $Cores -o ./fastqc reads_f_t.fastq
 
 # recompress everything
-files=( $(ls . | grep '\.fastq') )
+files=( $(ls . | grep '\.f*') )
 for i in ${files[*]}; do
 	printf "Compressing $i\n"
 	gzip $i
