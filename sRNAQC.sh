@@ -71,6 +71,15 @@ done
 ###############
 # remove all files starting 'reads'
 rm reads*
+# uncompress input file if necessary
+if [[ "${InFile}" == *.gz ]]
+then
+	echo "uncompressing file ${InFile}"
+	gunzip "${InFile}"
+	newfile=$(echo "${InFile}" | sed s/.gz//)
+	InFile=$newfile
+	echo "New infile is ${InFile}"
+fi
 # filter out all reads with >10% bases with a Qphred of <20 (<99% certain)
 printf "Filtering out low quality reads\n"
 fastq_quality_filter -v -q 20 -p 90 -i $InFile -o reads_f.fastq
