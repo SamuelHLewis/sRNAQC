@@ -17,7 +17,7 @@ FastQC
 ## Usage
 Basic usage is:
 ```bash
-bash sRNAQC.sh -i reads.fastq
+sRNAQC.sh -i reads.fastq
 ```
 sRNAQC accepts the following additional arguments (all of which have defaults already set):
 
