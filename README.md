@@ -14,7 +14,7 @@ fastx_collapser
 
 FastQC
 
-# Usage
+## Usage
 Basic usage is:
 ```bash
 bash sRNAQC.sh -i reads.fastq
