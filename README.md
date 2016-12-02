@@ -19,7 +19,7 @@ Basic usage is:
 ```bash
 bash sRNAQC.sh -i reads.fastq
 ```
-VirusFinder accepts the following additional arguments (all of which have defaults already set):
+sRNAQC accepts the following additional arguments (all of which have defaults already set):
 
 -a (3' adapter sequence)
 
