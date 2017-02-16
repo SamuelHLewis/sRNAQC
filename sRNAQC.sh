@@ -14,6 +14,11 @@ while getopts ":a:c:i:n:h" opt; do
 				# exit if 3' adapter is set as an empty string
 				printf "ERROR: 3' adapter (-a) set as empty\n"
 				exit 1
+			elif [ $OPTARG = "OFF" ]
+			then
+				# set 3' adapter to OFF if specified (to skip adapater trimming entirely)
+				printf "3' adapter trimming turned off\n"
+				Adapter3=$OPTARG
 			else
 				# set 3' adapter to user input
 				printf "3' adapter (-a): $OPTARG\n"
@@ -85,8 +90,14 @@ printf "Filtering out low quality reads\n"
 fastq_quality_filter -v -q 20 -p 90 -i $InFile -o reads_f.fastq
 # trim adapters
 # -e 0.05 specifies a 5% error rate (1 mismatch)
-printf "Trimming adapters\n"
-cutadapt --trimmed-only -a $Adapter3 -m 17 -e 0.05 -o reads_f_t.fastq reads_f.fastq
+if [ "$Adapter3" != "OFF" ]
+then
+	printf "Trimming adapters\n"
+	cutadapt --trimmed-only -a $Adapter3 -m 17 -e 0.05 -o reads_f_t.fastq reads_f.fastq
+else
+	printf "Skipping adapter trimming (but still renaming reads to reads_f_t.fastq)\n"
+	cp reads_f.fastq reads_f_t.fastq
+fi
 if [ "$AdaptAmb" != "False" ]
 then
 	# trim 3 bases from 3' end of each read
@@ -97,6 +108,7 @@ then
 fi
 
 # collapse reads to unique reads
+printf "Collapsing reads to unique sequences\n"
 fastx_collapser -i reads_f_t.fastq -o reads_f_t_c.fasta
 
 # remove ./fastqc if it already exists
