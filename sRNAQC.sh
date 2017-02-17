@@ -6,7 +6,7 @@ Cores=1
 AdaptAmb=False
 
 # command line option parsing
-while getopts ":a:c:i:n:h" opt; do
+while getopts ":a:c:i:n:d:h" opt; do
 	case $opt in
 		a)
 			if [ $OPTARG = "" ]
@@ -60,6 +60,16 @@ while getopts ":a:c:i:n:h" opt; do
 				AdaptAmb=$OPTARG
 			fi
 			;;
+		d)
+			# set input directory (if specified)
+			if [ "${OPTARG}" != ""  ]
+			then
+				InDir=${OPTARG}
+			else
+				printf "ERROR: input directory (-d) not specified"
+				exit 1
+			fi
+			;;
 		\?)
 			printf "ERROR: invalid parameter: -$OPTARG\nValid parameters are:\n-a (3' adapter sequence)\n-g (5' adapter sequence)\n-c (number of cores, default=1)\n-i (input file)\n-n (number of ambiguities in 3' adapter sequence, default=0)\n-h display help message\n"
 			exit 1
@@ -74,6 +84,9 @@ done
 ###############
 ## CORE CODE ##
 ###############
+# change directory to input directory
+printf "Moving to ${InDir}\n"
+cd "${InDir}"
 # remove all files starting 'reads'
 rm reads*
 # uncompress input file if necessary
